@@ -9,17 +9,14 @@ class Graph:
     def bellman_ford(self, start_v):
         D = {v: float('inf') for v in range(self.v)}
         D[start_v] = 0
-        while True:
-            flag = False
+        for _ in range(self.v - 1):
             for u, v, w in self.edges:
                 if D[u] != float('inf') and D[u] + w < D[v]:
                     D[v] = D[u] + w
-                    flag = True
-            if not flag:
-                break
         for u, v, w in self.edges:
             if D[u] != float('inf') and D[u] + w < D[v]:
                 print('В графе есть цикл отрицательного веса')
+                return
         return D
 
 
