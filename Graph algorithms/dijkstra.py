@@ -11,8 +11,9 @@ class Graph:
         self.edges[v1][v2] = weight
         self.edges[v2][v1] = weight
 
-    def dijkstra(self, start_v):
+    def dijkstra(self, start_v, target_v):
         D = {v: float('inf') for v in range(self.v)}
+        P = {p: -1 for p in range(self.v)}
         D[start_v] = 0
         pq = PriorityQueue()
         pq.put((0, start_v))
@@ -25,8 +26,17 @@ class Graph:
                     new_cost = D[v] + self.edges[v][neighbour]
                     if new_cost < old_cost:
                         D[neighbour] = new_cost
+                        P[neighbour] = v
                         pq.put((new_cost, neighbour))
-        return D
+        if D[target_v] == float('inf'):
+            print(f'Нет пути от вершины {start_v} до вершины {target_v}')
+        else:
+            path = []
+            while target_v != -1:
+                path.append(target_v)
+                target_v = P[target_v]
+            [print(v, end=' ') for v in reversed(path)]
+        print(D)
 
 
 g = Graph(9)
@@ -45,4 +55,4 @@ g.add_edge(4, 8, 5)
 g.add_edge(5, 8, 12)
 g.add_edge(6, 7, 1)
 g.add_edge(7, 8, 3)
-print(g.dijkstra(0))
+g.dijkstra(0, 8)
