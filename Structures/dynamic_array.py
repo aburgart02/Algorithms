@@ -15,7 +15,9 @@ class DynamicArray:
         self.size += 1
 
     def get_element(self, i):
-        return self.elements[i]
+        if i >= self.size or i < 0:
+            raise IndexError
+        return self.buffer[i]
 
     def delete(self):
         self.buffer[self.size - 1] = None
