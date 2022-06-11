@@ -1,6 +1,4 @@
-import rabin_karp_hash
-p = rabin_karp_hash.p
-x = rabin_karp_hash.x
+from rabin_karp_hash import p, x, rabin_karp_hash
 
 
 def pow_mod_p(x, n):
@@ -30,9 +28,9 @@ def cut_prefix(st, s, t_len):
     return (st + p - s * xt % p) % p
 
 
-s = rabin_karp_hash.rabin_karp_hash('abc')
-t = rabin_karp_hash.rabin_karp_hash('def')
-st = rabin_karp_hash.rabin_karp_hash('abcdef')
+s = rabin_karp_hash('abc')
+t = rabin_karp_hash('def')
+st = rabin_karp_hash('abcdef')
 print(s, t, st)
 print(concat(s, t, 3))
 print(cut_suffix(st, t, 3))
