@@ -10,8 +10,8 @@ def rabin_karp_hash(s):
         return ord(s[0])
     h = 0
     for k in range(len(s)):
-        h = h * x + ord(s[k])
-    return h % p
+        h = (h * x + ord(s[k])) % p
+    return h
 
 
 if __name__ == '__main__':
