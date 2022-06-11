@@ -14,4 +14,5 @@ def rabin_karp_hash(s):
     return h % p
 
 
-print(rabin_karp_hash('abcde'))
+if __name__ == '__main__':
+    print(rabin_karp_hash('abcde'))
