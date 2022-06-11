@@ -22,11 +22,11 @@ class RabinKarp:
             xk[k] = xk[k - 1] * self.x % self.p
         return xk
 
-    def cut_prefix(self, st, s, k, xk):
-        return (st + self.p - s * xk[k] % self.p) % self.p
+    def cut_prefix(self, st, s, k):
+        return (st + self.p - s * self.xk[k] % self.p) % self.p
 
     def rabin_karp(self, i, j):
-        return self.cut_prefix(self.pref[j], self.pref[i - 1], j - i + 1, self.xk) if i > 0 else self.pref[j]
+        return self.cut_prefix(self.pref[j], self.pref[i - 1], j - i + 1) if i > 0 else self.pref[j]
 
 
 rk = RabinKarp('abcbcba')
