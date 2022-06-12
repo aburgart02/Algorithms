@@ -1,39 +1,40 @@
 import random
 
 
-p = 2 ** 64 - 59
-x = random.randint(1, p - 1)
+class RabinKarp:
+    def __init__(self, s):
+        self.p = 2 ** 64 - 59
+        self.x = random.randint(1, self.p - 1)
+        self.pref = self.get_pref(s)
+        self.xk = self.get_xk(s)
+
+    def get_pref(self, s):
+        pref = [0] * len(s)
+        pref[0] = ord(s[0])
+        for k in range(1, len(s)):
+            pref[k] = (pref[k - 1] * self.x + ord(s[k])) % self.p
+        return pref
+
+    def get_xk(self, s):
+        xk = [0] * (len(s) + 1)
+        xk[0] = 1
+        for k in range(1, len(s) + 1):
+            xk[k] = xk[k - 1] * self.x % self.p
+        return xk
+
+    def cut_prefix(self, st, s, k):
+        return (st + self.p - s * self.xk[k] % self.p) % self.p
+
+    def rabin_karp(self, i, j):
+        return self.cut_prefix(self.pref[j], self.pref[i - 1], j - i + 1) if i > 0 else self.pref[j]
 
 
-def get_pref(s):
-    pref = [0] * len(s)
-    pref[0] = ord(s[0])
-    for k in range(1, len(s)):
-        pref[k] = (pref[k - 1] * x + ord(s[k])) % p
-    return pref
-
-
-def get_xk(s):
-    xk = [0] * (len(s) + 1)
-    xk[0] = 1
-    for k in range(1, len(s) + 1):
-        xk[k] = xk[k - 1] * x % p
-    return xk
-
-
-def cut_prefix(st, s, k, xk):
-    return (st + p - s * xk[k] % p) % p
-
-
-def rabin_karp(s, i, j):
-    pref = get_pref(s)
-    xk = get_xk(s)
-    return cut_prefix(pref[j], pref[i - 1], j - i + 1, xk) if i > 0 else pref[j]
-
-
-print(rabin_karp('abcbcba', 1, 3))
-print(rabin_karp('abcbcba', 3, 5))
-print(rabin_karp('abcabc', 0, 2))
-print(rabin_karp('abcabc', 3, 5))
-print(rabin_karp('abcabcdfdf', 6, 7))
-print(rabin_karp('abcabcdfdf', 8, 9))
+rk = RabinKarp('abcbcba')
+print(rk.rabin_karp(1, 3))
+print(rk.rabin_karp(3, 5))
+rk = RabinKarp('abcabc')
+print(rk.rabin_karp(0, 2))
+print(rk.rabin_karp(3, 5))
+rk = RabinKarp('abcabcdfdf')
+print(rk.rabin_karp(6, 7))
+print(rk.rabin_karp(8, 9))
