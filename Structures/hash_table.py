@@ -1,3 +1,7 @@
+import random
+import math
+
+
 class Node:
     def __init__(self, key, value, next):
         self.key = key
@@ -11,9 +15,14 @@ class HashTable:
         self.m = 1
         self.T = [-1] * self.m
         self.K = [None] * self.m
+        self.w = 2 ** 64
+        self.a = random.randint(0, self.w) | 1
+
+    def f(self, k):
+        return k * self.a >> int(self.w - math.log2(self.m))
 
     def get(self, key):
-        i = self.T[key % self.m]
+        i = self.T[self.f(key)]
         while i != -1 and key != self.K[i].key:
             i = self.K[i].next
         if i == -1:
@@ -25,7 +34,7 @@ class HashTable:
             return
         if self.n >= self.m:
             self.recreate_table()
-        cell = key % self.m
+        cell = self.f(key)
         self.K[self.n] = Node(key, value, self.T[cell])
         self.T[cell] = self.n
         self.n += 1
@@ -36,7 +45,7 @@ class HashTable:
         self.T = [-1] * self.m
         K = [None] * self.m
         for node in self.K:
-            cell = node.key % self.m
+            cell = self.f(node.key)
             K[self.n] = Node(node.key, node.value, self.T[cell])
             self.T[cell] = self.n
             self.n += 1
