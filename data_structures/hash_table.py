@@ -15,11 +15,11 @@ class HashTable:
         self.m = 1
         self.T = [-1] * self.m
         self.K = [None] * self.m
-        self.w = 2 ** 64
-        self.a = random.randint(0, self.w) | 1
+        self.w = 64
+        self.a = random.randint(0, 2 ** self.w) | 1
 
     def f(self, k):
-        return k * self.a >> int(self.w - math.log2(self.m))
+        return (k * self.a) % 2 ** self.w >> int(self.w - math.log2(self.m))
 
     def get(self, key):
         i = self.T[self.f(key)]
