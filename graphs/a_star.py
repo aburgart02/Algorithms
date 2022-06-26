@@ -23,7 +23,7 @@ class Grid:
         D = {start_v: 0}
         P = {start_v: None}
         pq = PriorityQueue()
-        pq.put((0, start_v))
+        pq.put((self.heuristic(start_v, target_v), start_v))
         while not pq.empty():
             priority, v = pq.get()
             if v == target_v:
